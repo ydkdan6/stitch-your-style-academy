@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,5 +100,26 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .gradient-purple {
+    background: linear-gradient(135deg, #8B5A8C 0%, #B8A9D6 100%);
+  }
+  
+  .gradient-rose {
+    background: linear-gradient(135deg, #D4A5A5 0%, #F5F1EB 100%);
+  }
+  
+  .gradient-sage {
+    background: linear-gradient(135deg, #A8B5A0 0%, #F5F1EB 100%);
+  }
+  
+  .text-gradient {
+    background: linear-gradient(135deg, #8B5A8C 0%, #D4A5A5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
