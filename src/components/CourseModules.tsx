@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Users, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const modules = [
   {
@@ -49,6 +51,17 @@ const modules = [
 ];
 
 const CourseModules = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const handleModuleClick = (moduleId: number) => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    navigate(`/module/${moduleId}`);
+  };
+
   return (
     <section id="courses" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +77,7 @@ const CourseModules = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {modules.map((module, index) => (
-            <Card key={module.id} className={`overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in`} style={{animationDelay: `${index * 0.1}s`}}>
+            <Card key={module.id} className={`overflow-hidden hover:shadow-xl transition-all duration-300 animate-fade-in cursor-pointer`} style={{animationDelay: `${index * 0.1}s`}}>
               <div className={`h-2 ${module.gradient}`}></div>
               <CardHeader>
                 <div className="flex justify-between items-start mb-2">
@@ -109,12 +122,18 @@ const CourseModules = () => {
                         style={{ width: `${module.progress}%` }}
                       ></div>
                     </div>
-                    <Button className="w-full mt-4 gradient-purple text-white hover:opacity-90">
+                    <Button 
+                      className="w-full mt-4 gradient-purple text-white hover:opacity-90"
+                      onClick={() => handleModuleClick(module.id)}
+                    >
                       Continue Learning
                     </Button>
                   </div>
                 ) : (
-                  <Button className="w-full gradient-purple text-white hover:opacity-90 transition-opacity">
+                  <Button 
+                    className="w-full gradient-purple text-white hover:opacity-90 transition-opacity"
+                    onClick={() => handleModuleClick(module.id)}
+                  >
                     Start Module
                   </Button>
                 )}
