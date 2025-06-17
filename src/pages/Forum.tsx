@@ -22,6 +22,7 @@ interface ForumPost {
   likes_count: number;
   comments_count: number;
   created_at: string;
+  user_id: string;
   profiles: {
     username: string;
     full_name: string;
@@ -35,6 +36,7 @@ const Forum = () => {
   const [tags, setTags] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   
   const { user } = useAuth();
   const { toast } = useToast();
@@ -59,7 +61,8 @@ const Forum = () => {
         likes_count,
         comments_count,
         created_at,
-        profiles (
+        user_id,
+        profiles!forum_posts_user_id_fkey (
           username,
           full_name
         )
@@ -67,6 +70,7 @@ const Forum = () => {
       .order('created_at', { ascending: false });
 
     if (error) {
+      console.error('Error fetching posts:', error);
       toast({
         title: "Error",
         description: "Failed to load forum posts",
@@ -110,6 +114,37 @@ const Forum = () => {
       fetchPosts();
     }
     setLoading(false);
+  };
+
+  const handleLike = async (postId: string) => {
+    if (!user) return;
+    
+    const isLiked = likedPosts.has(postId);
+    const newLikesCount = posts.find(p => p.id === postId)?.likes_count || 0;
+    const updatedCount = isLiked ? newLikesCount - 1 : newLikesCount + 1;
+
+    const { error } = await supabase
+      .from('forum_posts')
+      .update({ likes_count: updatedCount })
+      .eq('id', postId);
+
+    if (!error) {
+      setPosts(prev => prev.map(post => 
+        post.id === postId 
+          ? { ...post, likes_count: updatedCount }
+          : post
+      ));
+      
+      setLikedPosts(prev => {
+        const newSet = new Set(prev);
+        if (isLiked) {
+          newSet.delete(postId);
+        } else {
+          newSet.add(postId);
+        }
+        return newSet;
+      });
+    }
   };
 
   return (
@@ -175,55 +210,70 @@ const Forum = () => {
         </div>
 
         <div className="space-y-6">
-          {posts.map((post) => (
-            <Card key={post.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Avatar>
-                      <AvatarFallback className="bg-tailoring-purple text-white">
-                        {post.profiles?.username?.[0]?.toUpperCase() || <User className="h-4 w-4" />}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">
-                        {post.profiles?.full_name || post.profiles?.username || 'Anonymous'}
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        {new Date(post.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <CardTitle className="text-xl font-bold text-gray-900 mt-4">
-                  {post.title}
-                </CardTitle>
-                <CardDescription className="text-gray-600">
-                  {post.content}
-                </CardDescription>
-              </CardHeader>
+          {posts.length === 0 ? (
+            <Card className="text-center py-12">
               <CardContent>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags?.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="text-tailoring-purple bg-tailoring-cream">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                
-                <div className="flex items-center space-x-6">
-                  <button className="flex items-center space-x-2 text-gray-500 hover:text-tailoring-purple transition-colors">
-                    <Heart className="h-4 w-4" />
-                    <span className="text-sm">{post.likes_count}</span>
-                  </button>
-                  <button className="flex items-center space-x-2 text-gray-500 hover:text-tailoring-purple transition-colors">
-                    <MessageCircle className="h-4 w-4" />
-                    <span className="text-sm">{post.comments_count}</span>
-                  </button>
-                </div>
+                <p className="text-gray-500 text-lg">No posts yet. Be the first to share something!</p>
               </CardContent>
             </Card>
-          ))}
+          ) : (
+            posts.map((post) => (
+              <Card key={post.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Avatar>
+                        <AvatarFallback className="bg-tailoring-purple text-white">
+                          {post.profiles?.username?.[0]?.toUpperCase() || <User className="h-4 w-4" />}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">
+                          {post.profiles?.full_name || post.profiles?.username || 'Anonymous'}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {new Date(post.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <CardTitle className="text-xl font-bold text-gray-900 mt-4">
+                    {post.title}
+                  </CardTitle>
+                  <CardDescription className="text-gray-600">
+                    {post.content}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {post.tags?.map((tag, index) => (
+                      <Badge key={index} variant="secondary" className="text-tailoring-purple bg-tailoring-cream">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                  
+                  <div className="flex items-center space-x-6">
+                    <button 
+                      onClick={() => handleLike(post.id)}
+                      className={`flex items-center space-x-2 transition-colors ${
+                        likedPosts.has(post.id) 
+                          ? 'text-red-500 hover:text-red-600' 
+                          : 'text-gray-500 hover:text-tailoring-purple'
+                      }`}
+                    >
+                      <Heart className={`h-4 w-4 ${likedPosts.has(post.id) ? 'fill-current' : ''}`} />
+                      <span className="text-sm">{post.likes_count}</span>
+                    </button>
+                    <button className="flex items-center space-x-2 text-gray-500 hover:text-tailoring-purple transition-colors">
+                      <MessageCircle className="h-4 w-4" />
+                      <span className="text-sm">{post.comments_count}</span>
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </div>
     </div>
