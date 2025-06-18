@@ -56,7 +56,7 @@ export const moduleData = [
             <li>Consider left-handed tools if you're left-handed</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/R5HFZ_JH2M4"
+        videoUrl: "https://www.youtube.com/embed/zE6BHgcAWy0"
       },
       {
         id: 2,
@@ -134,7 +134,7 @@ export const moduleData = [
             <li>Understand the fabric's care requirements before starting</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/tQzQ_rmqmII"
+        videoUrl: "https://youtube.com/embed/MkjQDEYW3Nc"
       },
       {
         id: 3,
@@ -241,7 +241,7 @@ export const moduleData = [
             <li>Not accounting for posture differences</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/Oe847jUwwjU"
+        videoUrl: "https://youtube.com/embed/NCJO_KNOqs0"
       }
     ]
   },
@@ -388,7 +388,7 @@ export const moduleData = [
             <li>Update blocks as your skills improve</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/69HWmIzbvJE"
+        videoUrl: "https://youtu.be/99LHiQzOu1c?si=9UnlCCPAHPpfLLGA"
       },
       {
         id: 5,
@@ -539,7 +539,7 @@ export const moduleData = [
             <li>Maintain a design notebook with sketches and notes</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/iWbOGwA7ZHU"
+        videoUrl: "https://youtu.be/zipSxniLJvQ?si=OGt1P8TRTLrimgoi"
       }
     ]
   },
