@@ -388,7 +388,7 @@ export const moduleData = [
             <li>Update blocks as your skills improve</li>
           </ul>
         `,
-        videoUrl: "https://youtu.be/99LHiQzOu1c?si=9UnlCCPAHPpfLLGA"
+        videoUrl: "https://youtube.com/embed/MWbEl0kibCA"
       },
       {
         id: 5,
@@ -539,7 +539,7 @@ export const moduleData = [
             <li>Maintain a design notebook with sketches and notes</li>
           </ul>
         `,
-        videoUrl: "https://youtu.be/zipSxniLJvQ?si=OGt1P8TRTLrimgoi"
+        videoUrl: "https://youtube.com/embed/dyT3576fntY"
       }
     ]
   },
@@ -706,7 +706,7 @@ export const moduleData = [
             <li>Be consistent throughout the garment</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/87bOzLHTjHM"
+        videoUrl: "https://www.youtube.com/embed/AC38yqMxMns"
       },
       {
         id: 7,
@@ -891,7 +891,7 @@ export const moduleData = [
             <li>Plan fastening placement during pattern layout</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/BSb_v7s9Y7o"
+        videoUrl: "https://www.youtube.com/embed/zZYlySVKaN0"
       }
     ]
   },
@@ -1089,7 +1089,7 @@ export const moduleData = [
             <li><strong>Personal goals:</strong> Work-life balance, fulfillment</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/4ZAEBxGipoA"
+        videoUrl: "https://www.youtube.com/embed/U-uuxeleKu0"
       }
     ]
   }
