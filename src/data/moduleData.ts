@@ -56,7 +56,7 @@ export const moduleData = [
             <li>Consider left-handed tools if you're left-handed</li>
           </ul>
         `,
-        videoUrl: "https://www.youtube.com/embed/zE6BHgcAWy0"
+        videoUrl: "https://www.youtube.com/embed/cBaN3WURmDw"
       },
       {
         id: 2,
@@ -134,7 +134,7 @@ export const moduleData = [
             <li>Understand the fabric's care requirements before starting</li>
           </ul>
         `,
-        videoUrl: "https://youtube.com/embed/MkjQDEYW3Nc"
+        videoUrl: "https://youtube.com/embed/W88_7gR6B5I"
       },
       {
         id: 3,
@@ -272,7 +272,7 @@ export const moduleData = [
           
           <h5>Bodice Block (Torso)</h5>
           <ul>
-            <li><strong>Purpose:</strong> Fits from shoulder to waist</li>
+            <li><strong><h2>Purpose:</strong> Fits from shoulder to waist</li></h2>
             <li><strong>Key elements:</strong> Bust dart, waist shaping, armhole curve</li>
             <li><strong>Uses:</strong> Blouses, dresses, jackets, coats</li>
           </ul>
